@@ -31,6 +31,7 @@
 #ifndef PREVIEW_MOVEIT_TRAJECTORY_H
 #define PREVIEW_MOVEIT_TRAJECTORY_H
 
+#include "gui_server/trigger_gui_server.h"
 #include "moveit_msgs/DisplayTrajectory.h"
 #include "moveit_msgs/RobotTrajectory.h"
 #include <ros/ros.h>

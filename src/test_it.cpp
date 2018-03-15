@@ -28,25 +28,31 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// To use this test:
-// catkin build --make-args tests -- preview_moveit_trajectory  (BUILD IT)
-// catkin build --make-args test -- preview_moveit_trajectory   (RUN IT)
-// catkin_test_results build   (SEE OUTPUT)
+// Launch RViz with Vaultbot, then run this to verify
+// the trajectory preview function.
+// You should see the arm flail across RViz several times then a GUI popup.
 
-#include "gtest/gtest.h"
 #include "moveit_msgs/RobotTrajectory.h"
 #include "preview_moveit_trajectory.h"
 #include "ros/ros.h"
 
-TEST(myTester, test_traj_display){
+int main(int argc, char **argv)
+{
+  ros::init(argc, argv, "test_preview_moveit_trajectory");
   ros::NodeHandle n;
 
   // Build a trajectory
   moveit_msgs::RobotTrajectory robot_traj;
 
-  trajectory_msgs::JointTrajectoryPoint pt0;
+  trajectory_msgs::JointTrajectoryPoint pt0, pt1, pt2;
   pt0.positions.push_back(1.);
   pt0.time_from_start = ros::Duration(0.1);
+
+  pt1.positions.push_back(1.1);
+  pt1.time_from_start = ros::Duration(0.2);
+
+  pt2.positions.push_back(1.2);
+  pt2.time_from_start = ros::Duration(0.3);
 
   robot_traj.joint_trajectory.header.stamp = ros::Time::now();
   robot_traj.joint_trajectory.header.frame_id = "base_link";
@@ -54,16 +60,9 @@ TEST(myTester, test_traj_display){
   robot_traj.joint_trajectory.points.push_back(pt0);
 
   // Call the function that should display the trajectory in RViz and trigger a popup
-  preview_traj(robot_traj, n);
+  ROS_INFO_STREAM("Service response should be 'clicked' if user accepted the trajectory.");
+  ROS_INFO_STREAM("Else, it should be 'no_response'.");
+  ROS_INFO_STREAM("Response: " << preview_traj(robot_traj, n) );
 
-  // Return true (test passes) if the user clicks any button (any string is returned)
-
-  EXPECT_TRUE(true);
-}
-
-int main(int argc, char **argv)
-{
-  ros::init(argc, argv, "test_preview_moveit_trajectory");
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  return 0;
 }

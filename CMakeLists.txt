@@ -128,9 +128,9 @@ add_library(preview_moveit_trajectory
 ## either from message generation or dynamic reconfigure
 # add_dependencies(preview_moveit_trajectory ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-#add_executable(test_it src/test_it.cpp)
-#add_dependencies(test_it ${catkin_EXPORTED_TARGETS})
-#target_link_libraries(test_it ${catkin_LIBRARIES} preview_moveit_trajectory)
+add_executable(test_it src/test_it.cpp)
+add_dependencies(test_it ${catkin_EXPORTED_TARGETS})
+target_link_libraries(test_it ${catkin_LIBRARIES} preview_moveit_trajectory)
 
 #############
 ## Install ##
@@ -179,9 +179,3 @@ install(DIRECTORY include/${PROJECT_NAME}/
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-if(CATKIN_ENABLE_TESTING)
-  find_package(rostest REQUIRED)
-  add_rostest_gtest(test_preview_moveit_trajectory test/test_launch.launch test/test_preview_moveit_trajectory.cpp)
-  target_link_libraries(test_preview_moveit_trajectory ${catkin_LIBRARIES} preview_moveit_trajectory)
-endif()

@@ -30,9 +30,47 @@
 
 #include "preview_moveit_trajectory.h"
 
-std::string preview_traj( moveit_msgs::RobotTrajectory& traj, ros::NodeHandle& n )
+std::string preview_traj( moveit_msgs::RobotTrajectory& robot_traj, ros::NodeHandle& n )
 {
-  ROS_ERROR_STREAM("Previewing the traj");
+  // Convert the incoming moveit_msgs::RobotTrajectory to moveit_msgs::DisplayTrajectory
+  // The main difference is a start state definition
+  moveit_msgs::DisplayTrajectory traj_display;
+  traj_display.trajectory.push_back(robot_traj);
 
-  return "";
+  sensor_msgs::JointState ini_jts;
+  ini_jts.header.stamp = ros::Time::now();
+  ini_jts.header.frame_id = "base_link";
+  ini_jts.name.push_back( robot_traj.joint_trajectory.joint_names.at(0) );
+  ini_jts.position.push_back( robot_traj.joint_trajectory.points.at(0).positions.at(0) );
+  moveit_msgs::RobotState ini_state;
+  ini_state.joint_state = ini_jts;
+
+  traj_display.trajectory_start = ini_state;
+
+  // Publish the traj to RViz. Latch it
+  ros::Publisher traj_pub = n.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
+
+  // Preview in RViz several times
+  for( int i=0; i<5; i++ )
+  {
+    ros::Duration(1.).sleep();
+    traj_pub.publish(traj_display);
+  }
+
+  // Launch the popup via service call
+  ros::ServiceClient client = n.serviceClient<gui_server::trigger_gui_server>("/gui_server/trigger");
+  gui_server::trigger_gui_server srv;
+  //rosservice call /gui_server/trigger "graphic_type: 'push_button' text_to_display: 'Thank you come again'"
+  srv.request.graphic_type = "push_button";
+  srv.request.text_to_display = "Accept";
+  if (!client.call(srv))
+  {
+    ROS_ERROR("Failed to call /gui_server/trigger");
+    return "error";
+  }
+
+
+  // Return a string based on the user's selection
+
+  return srv.response.response;
 }

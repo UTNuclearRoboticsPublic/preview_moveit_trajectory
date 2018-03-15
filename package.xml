@@ -17,4 +17,5 @@
   <depend>cmake_modules</depend>
   <depend>moveit_msgs</depend>
   <depend>roscpp</depend>
+  <depend>gui_server</depend>
 </package>

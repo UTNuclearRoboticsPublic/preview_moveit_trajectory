@@ -1,3 +1,0 @@
-<launch>
- <test test-name="test_preview_moveit_trajectory" pkg="preview_moveit_trajectory" type="test_preview_moveit_trajectory" />
-</launch>
