@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>preview_moveit_trajectory</name>
+  <version>0.0.3</version>
+
+  <description>Display a planned trajectory in RViz and prompt for user approval.</description>
+
+  <maintainer email="andyz@utexas.edu">Andy Zelenak</maintainer>
+
+  <license>specified in-file</license>
+
+  <url type="website">TODO</url>
+
+  <author email="andyz@utexas.edu">Andy Zelenak</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>cmake_modules</depend>
+  <depend>moveit_msgs</depend>
+  <depend>roscpp</depend>
+</package>
