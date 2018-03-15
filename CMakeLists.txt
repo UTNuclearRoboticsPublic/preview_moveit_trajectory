@@ -101,8 +101,8 @@ add_compile_options(-std=c++11)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES preview_moveit_trajectory
-  CATKIN_DEPENDS roscpp
+  LIBRARIES preview_moveit_trajectory
+  CATKIN_DEPENDS roscpp moveit_msgs
 )
 
 ###########
@@ -113,7 +113,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  include
+  include/${PROJECT_NAME}
   ${catkin_INCLUDE_DIRS}
   ${Eigen_INCLUDE_DIRS}
 )
@@ -147,11 +147,11 @@ target_link_libraries(test_it ${catkin_LIBRARIES} preview_moveit_trajectory)
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS preview_moveit_trajectory preview_moveit_trajectory
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+install(TARGETS preview_moveit_trajectory
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
 install(DIRECTORY include/${PROJECT_NAME}/
