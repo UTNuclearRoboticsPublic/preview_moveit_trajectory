@@ -44,10 +44,7 @@ std::string preview_traj( moveit_msgs::RobotState& start_state, moveit_msgs::Rob
 
   // Preview in RViz several times
   for( int i=0; i<5; i++ )
-  {
-    ros::Duration(1.).sleep();
     traj_pub.publish(traj_display);
-  }
 
   // Launch the popup via service call
   ros::ServiceClient client = n.serviceClient<gui_server::trigger_gui_server>("/gui_server/trigger");
