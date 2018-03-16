@@ -59,10 +59,15 @@ int main(int argc, char **argv)
   robot_traj.joint_trajectory.joint_names.push_back("right_ur5_shoulder_pan_joint");
   robot_traj.joint_trajectory.points.push_back(pt0);
 
+  // Specify the start state
+  moveit_msgs::RobotState start_state;
+  start_state.joint_state.name.push_back( robot_traj.joint_trajectory.joint_names.at(0) );
+  start_state.joint_state.position.push_back( robot_traj.joint_trajectory.points.at(0).positions.at(0) );
+
   // Call the function that should display the trajectory in RViz and trigger a popup
   ROS_INFO_STREAM("Service response should be 'clicked' if user accepted the trajectory.");
   ROS_INFO_STREAM("Else, it should be 'no_response'.");
-  ROS_INFO_STREAM("Response: " << preview_traj(robot_traj, n) );
+  ROS_INFO_STREAM("Response: " << preview_traj(start_state, robot_traj, n) );
 
   return 0;
 }

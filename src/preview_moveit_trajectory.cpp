@@ -30,22 +30,14 @@
 
 #include "preview_moveit_trajectory.h"
 
-std::string preview_traj( moveit_msgs::RobotTrajectory& robot_traj, ros::NodeHandle& n )
+std::string preview_traj( moveit_msgs::RobotState& start_state, moveit_msgs::RobotTrajectory& robot_traj, ros::NodeHandle& n )
 {
   // Convert the incoming moveit_msgs::RobotTrajectory to moveit_msgs::DisplayTrajectory
   // The main difference is a start state definition
   moveit_msgs::DisplayTrajectory traj_display;
   traj_display.trajectory.push_back(robot_traj);
 
-  sensor_msgs::JointState ini_jts;
-  ini_jts.header.stamp = ros::Time::now();
-  ini_jts.header.frame_id = "base_link";
-  ini_jts.name.push_back( robot_traj.joint_trajectory.joint_names.at(0) );
-  ini_jts.position.push_back( robot_traj.joint_trajectory.points.at(0).positions.at(0) );
-  moveit_msgs::RobotState ini_state;
-  ini_state.joint_state = ini_jts;
-
-  traj_display.trajectory_start = ini_state;
+  traj_display.trajectory_start = start_state;
 
   // Publish the traj to RViz. Latch it
   ros::Publisher traj_pub = n.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);

@@ -37,6 +37,6 @@
 #include <ros/ros.h>
 #include <string>
 
-std::string preview_traj( moveit_msgs::RobotTrajectory& traj, ros::NodeHandle& n );
+std::string preview_traj( moveit_msgs::RobotState& start_state, moveit_msgs::RobotTrajectory& robot_traj, ros::NodeHandle& n );
 
 #endif // PREVIEW_MOVEIT_TRAJECTORY_H
