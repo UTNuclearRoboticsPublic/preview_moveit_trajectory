@@ -5,6 +5,7 @@ project(preview_moveit_trajectory)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  gui_server
   moveit_msgs
   roscpp
 )
